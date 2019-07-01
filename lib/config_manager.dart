@@ -21,7 +21,7 @@ class ConfigManger{
       return _instance;
   }
 
-  JsonCodec JSON = new JsonCodec();
+  JsonCodec _jCodec = new JsonCodec();
   
   //密码
   String _strPassword = '';
@@ -40,7 +40,7 @@ class ConfigManger{
     File file = new File("$_strAppPath/config.json");
 
     String strJsonData = file.readAsStringSync();
-    _json = JSON.decode(strJsonData);
+    _json = _jCodec.decode(strJsonData);
     _strPassword = _json["password"];
   }
 
@@ -50,7 +50,7 @@ class ConfigManger{
 
       _json["password"] = password;
 
-      await file.writeAsString(JSON.encode(_json));
+      await file.writeAsString(_jCodec.encode(_json));
   }
 
   String getPassword() => _strPassword;

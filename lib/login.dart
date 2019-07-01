@@ -24,11 +24,11 @@ class LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
-        title: Text(''),
+        title: Text('Login'),
       ),
       body: Center(
         child: TextField(
-            obscureText: true, onChanged: checkPassword, maxLength: 4),
+            obscureText: true, onChanged: checkPassword, maxLength: 4,decoration: InputDecoration(),textAlign: TextAlign.center,),widthFactor: 200,
       ),
     );
   }
