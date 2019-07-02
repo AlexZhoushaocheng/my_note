@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'config_manager.dart';
 
 class MainWidget extends StatefulWidget{
   @override
@@ -12,7 +13,7 @@ class MainWidgetState extends State<MainWidget>{
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: AppBar(
-        leading: new IconButton(icon: Icon(Icons.arrow_back),onPressed: (){},),
+        leading: new IconButton(icon: Icon(Icons.home),onPressed: (){},),
         title: Text("MyNote"),
         actions: <Widget>[
           IconButton(icon: Icon(Icons.add),onPressed: (){},),

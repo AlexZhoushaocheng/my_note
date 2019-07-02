@@ -2,27 +2,22 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
-
-class ConfigManger{
-
-  factory ConfigManger()=> _getInstance();
+class ConfigManger {
+  factory ConfigManger() => _getInstance();
 
   static ConfigManger _instance;
 
   ConfigManger._();
-  
 
-  static ConfigManger _getInstance()
-  {
-      if(null == _instance)
-      {
-        _instance = new ConfigManger._();
-      }
-      return _instance;
+  static ConfigManger _getInstance() {
+    if (null == _instance) {
+      _instance = new ConfigManger._();
+    }
+    return _instance;
   }
 
   JsonCodec _jCodec = new JsonCodec();
-  
+
   //密码
   String _strPassword = '';
 
@@ -30,27 +25,35 @@ class ConfigManger{
   String _strAppPath = '';
 
   //json 数据，包含所有配置
-  Map<String,dynamic> _json = {};
+  Map<String, dynamic> _json = {};
 
-  void loadConfig() async
-  {
+  Future<bool> loadConfig() async {
     Directory dir = await getApplicationDocumentsDirectory();
     _strAppPath = dir.path;
 
     File file = new File("$_strAppPath/config.json");
 
-    String strJsonData = file.readAsStringSync();
-    _json = _jCodec.decode(strJsonData);
-    _strPassword = _json["password"];
+    String strJsonData = '';
+    
+    return await file.exists().then((success) {
+      if (success) {
+        strJsonData = file.readAsStringSync();
+        _json = _jCodec.decode(strJsonData);
+        _strPassword = _json["password"];
+        return true;
+      } else {
+        return false;
+      }
+    });
   }
 
-  void setPassword(String password)async
-  {
-      File file = new File("$_strAppPath/config.json");
+  void setPassword(String password) async {
+    File file = new File("$_strAppPath/config.json");
 
-      _json["password"] = password;
+    _json["password"] = password;
 
-      await file.writeAsString(_jCodec.encode(_json));
+    print(_jCodec.encode(_json));
+    await file.writeAsString(_jCodec.encode(_json), flush: true);
   }
 
   String getPassword() => _strPassword;

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:my_note/config_manager.dart';
 
 class Login extends StatefulWidget {
-  Login(Function f) : this.loginSeccessCallBack = f;
+  Login(Function onSuccess) : this.loginSeccessCallBack = onSuccess;
 
   final Function loginSeccessCallBack;
 
@@ -15,8 +16,10 @@ class LoginState extends State<Login> {
   //TextField textField = new ;
 
   void checkPassword(String v) {
-    if (v == '1234') {
+    if (v == ConfigManger().getPassword()) {
       widget.loginSeccessCallBack();
+
+      Navigator.pushNamed(context, '/home');
     }
   }
 
