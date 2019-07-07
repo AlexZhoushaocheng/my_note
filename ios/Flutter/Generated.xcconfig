@@ -1,6 +1,6 @@
 // This is a generated file; do not edit or check into version control.
 FLUTTER_ROOT=D:\Program Files\flutter
-FLUTTER_APPLICATION_PATH=E:\src\my_workspace\flutter\my_note\my_note
+FLUTTER_APPLICATION_PATH=E:\MyProject\05 Dart\my_note
 FLUTTER_TARGET=lib/main.dart
 FLUTTER_BUILD_DIR=build
 SYMROOT=${SOURCE_ROOT}/../build\ios

@@ -1,43 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:my_note/AccountModel.dart';
+import 'account_model.dart';
 import 'login.dart';
-import 'config_manager.dart';
+import 'data_manager.dart';
 import 'main_widget.dart';
 import 'package:provider/provider.dart';
 
 main(List<String> args) async {
-  ConfigManger configManger = new ConfigManger();
-  await configManger.loadConfig().then((value) {
-    if (value) {
-      print('success');
-    } else {
-      print('load config failed');
-      //configManger.setPassword('3456');
-    }
-  });
+  DataManger configManger = new DataManger();
+  await configManger.loadConfig();
 
-  runApp(ChangeNotifierProvider(
+  Account account = Account(account: 'baidu',username: 'uname',password: '14725',remark: '');
+  //configManger.addAccountInfo(account);
+
+  runApp(new ChangeNotifierProvider(
     builder: (context) => AccountModel(),
     child: MaterialApp(
-      home: configManger.getPassword().isNotEmpty
-          ? new Login()
-          : new MainWidget(),
+      home: configManger.password != null && configManger.password.isNotEmpty ? new Login() : new MainWidget(),
+
       routes: <String, WidgetBuilder>{
         "/home": (_) => new MainWidget(),
         "/login": (_) => new Login()
       },
     ),
   ));
-
-//如果配置中密码不为空，则转到登陆页面
-// if(configManger.getPassword().isNotEmpty)
-// {
-
-// }
-
-  // runApp(MaterialApp(
-  //   home: new Login(() {
-  //     print("login sueccess!");
-  //   }),
-  // ));
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_note/config_manager.dart';
+import 'data_manager.dart';
 
 class Login extends StatefulWidget {
   Login();
@@ -13,8 +13,8 @@ class Login extends StatefulWidget {
 class LoginState extends State<Login> {
 
   void checkPassword(String v) {
-    if (v == ConfigManger().getPassword()) {
-      Navigator.pushNamed(context, '/home');
+    if (v == DataManger().password) {
+      Navigator.pushReplacementNamed(context, '/home');
     }
   }
 
@@ -25,8 +25,16 @@ class LoginState extends State<Login> {
         title: Text('Login'),
       ),
       body: Center(
-        child: TextField(
-            obscureText: true, onChanged: checkPassword, maxLength: 4,decoration: InputDecoration(),textAlign: TextAlign.center,),widthFactor: 200,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 100),
+          child: TextField(
+            obscureText: true, 
+            onChanged: checkPassword, 
+            maxLength: 4,
+            decoration: InputDecoration(),
+            textAlign: TextAlign.center,
+            ),
+        )
       ),
     );
   }
