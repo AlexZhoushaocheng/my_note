@@ -3,15 +3,18 @@ import 'package:flutter/widgets.dart';
 import 'data_manager.dart';
 
 class Account{
-  Account({this.account,this.username,this.password,this.remark});
+  Account({this.id, this.account, this.username, this.password, this.remark});
+
+  int id = 0;
   String account ='';
   String username = '';
   String password = '';
   String remark = '';
 
-  Map toMap() => {'account':account,'username':account,'password':account,'remark':account= ''};
+  Map toMap() => {'id':'$id','account':account,'username':account,'password':account,'remark':account= ''};
 
   Account.formMap(Map acc):
+    id = acc['id'],
     account = acc['account'],
     username = acc['username'],
     password = acc['password'],
@@ -36,6 +39,11 @@ class AccountModel extends ChangeNotifier
   {
     _list.add(acc);
     notifyListeners();
+  }
+
+  void modify(Account acc)
+  {
+    
   }
 }
 

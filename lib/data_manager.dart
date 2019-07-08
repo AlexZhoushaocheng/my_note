@@ -72,13 +72,13 @@ class DataManger {
   }
 
   // 删除
-  bool delAccountInfo(String account) {
+  bool delAccountInfo(int id) {
     bool ret = false;
     List accList = _json['accountInfoList'];
     if (accList != null) {
       accList.forEach((e) {
         if (e is Map) {
-          if (e['account'] == account) {
+          if (e['id'] == id) {
             ret = accList.remove(e);
             _json['accountInfoList'] = accList;
             saveData();
@@ -96,7 +96,7 @@ class DataManger {
     if (accList != null) {
       accList.forEach((e) {
         if (e is Map) {
-          if (e['account'] == account.account) {
+          if (e['id'] == account.id) {
             ret = accList.remove(e);
             accList.add(account.toMap());
             _json['accountInfoList'] = accList;

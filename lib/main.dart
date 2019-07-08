@@ -4,6 +4,7 @@ import 'login.dart';
 import 'data_manager.dart';
 import 'main_widget.dart';
 import 'package:provider/provider.dart';
+import 'editor.dart';
 
 main(List<String> args) async {
   DataManger configManger = new DataManger();
@@ -18,8 +19,9 @@ main(List<String> args) async {
       home: configManger.password != null && configManger.password.isNotEmpty ? new Login() : new MainWidget(),
 
       routes: <String, WidgetBuilder>{
-        "/home": (_) => new MainWidget(),
-        "/login": (_) => new Login()
+        "/home": (context) => new MainWidget(),
+        "/login": (context) => new Login(),
+        "/edit":(context,{Account account}) => new AccountEditor(account: account,),
       },
     ),
   ));
