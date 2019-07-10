@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
@@ -18,23 +19,23 @@ class DataAccessManger {
   }
 
   //[pulic]
-  set data(data) {
+  set data(String data) {
     _data = data;
     _saveData();
   }
 
-  String get data {
+  Future<String>  getData() async
+  {
     if (!_isLoaded) {
-      _loadData();
+      await _loadData();
       _isLoaded = true;
     }
-
     return _data;
   }
   //[pulic]
 
   //读取数据
-  void _loadData() async {
+  Future<bool> _loadData() async {
     Directory directory = await getApplicationDocumentsDirectory();
     File dataFile = File(directory.path + '/data');
     bool ret = await dataFile.exists();
@@ -42,6 +43,7 @@ class DataAccessManger {
     if (ret) {
       _data = await dataFile.readAsString();
     }
+    return true;
   }
 
   //保存数据

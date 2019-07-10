@@ -54,7 +54,6 @@ class ConfigManager {
   }
 
   void _parse(String data) {
-    print("parse");
     try {
       _config = json.decode(data);
       if (!_config.containsKey('password')) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:my_note/data_access_manager.dart';
 import 'package:provider/provider.dart';
-import 'data_manager.dart';
+//import 'data_manager.dart';
 import 'account_model.dart';
 
 class MainWidget extends StatefulWidget {
@@ -31,7 +32,9 @@ class MainWidgetState extends State<MainWidget> {
               }),
           IconButton(
             icon: Icon(Icons.search),
-            onPressed: () {},
+            onPressed: () {
+              //print(DataAccessManger().data);
+            },
           ),
           IconButton(
             icon: Icon(Icons.menu),
@@ -42,7 +45,7 @@ class MainWidgetState extends State<MainWidget> {
       body: ListView(
         children: List<Widget>.generate(accounts.length, (index) {
           return GestureDetector(
-            child: Text('${accounts[index].account}'),
+            child: Text('${accounts.values.elementAt(index).account}'),
             onDoubleTap: (){
               Navigator.pushNamed(context, '/edit');
             },

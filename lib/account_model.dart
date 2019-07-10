@@ -7,15 +7,16 @@ import 'dart:convert';
 class Account{
   Account({this.id, this.account, this.username, this.password, this.remark});
 
-  int id = 0;
+  String id = '';
   String account ='';
   String username = '';
   String password = '';
   String remark = '';
 
-  Map toMap() => {'id':'$id','account':account,'username':account,'password':account,'remark':account= remark};
+  Map toMap() => {'id':id,'account':account,'username':account,'password':account,'remark':account= remark};
 
-  dynamic toJson() => {'id':'$id','account':account,'username':account,'password':account,'remark':remark};
+  //
+  dynamic toJson() => {'id':id,'account':account,'username':username,'password':password,'remark':remark};
 
   Account.formMap(Map acc):
     id = acc['id'],
@@ -27,14 +28,18 @@ class Account{
 
 class AccountModel extends ChangeNotifier
 {
-  Map<int,Account> _accountItems = {};
+  Map<String,Account> _accountItems = {};
 
-  UnmodifiableMapView<int,Account> get items => UnmodifiableMapView(_accountItems);
+  UnmodifiableMapView<String,Account> get items => UnmodifiableMapView(_accountItems);
 
   //加载数据
-  void load()
+  void load()async
   {
-    _parse(DataAccessManger().data);
+    //_parse(DataAccessManger().getdata());
+    DataAccessManger().getData().then((data){
+    _parse(data);
+    });
+    
   }
 
   //新增
@@ -42,6 +47,9 @@ class AccountModel extends ChangeNotifier
   {
     acc.id = _getID();
     _accountItems[acc.id] = acc;
+
+    print("id ${acc.id} length: ${_accountItems.length}");
+
     notifyListeners();
     _save();
   }
@@ -71,11 +79,16 @@ class AccountModel extends ChangeNotifier
     if(data.isNotEmpty)
     {
       try{
-        Map<int,dynamic> accountItems = json.decode(data);
-        for(var item in accountItems.values)
-        {
-          _accountItems[item['id']] = item;
-        }
+        Map<String,dynamic> accountItems = json.decode(data);
+        // for(var item in accountItems.values)
+        // {
+        //   _accountItems[item['id']] = item;
+        // }
+        accountItems.forEach((key,value){
+          _accountItems[key] = Account.formMap(value);
+        });
+
+        print(_accountItems);
       }
       catch(ex)
       {
@@ -85,17 +98,20 @@ class AccountModel extends ChangeNotifier
   }
 
   //获取一个可用ID
-  int _getID()
+  String _getID()
   {
     int id = 0;
-    while(_accountItems.containsKey(id++)){}
+    while(_accountItems.containsKey((id).toString()))
+    {
+      id++;
+    }
 
-    return id;
+    return id.toString();
   }
 
   void _save()
   {
-    json.encode(_accountItems);
+    DataAccessManger().data = json.encode(_accountItems);
   }
 }
 
