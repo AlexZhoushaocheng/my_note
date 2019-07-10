@@ -1,6 +1,8 @@
 import 'dart:collection';
+import 'dart:developer';
 import 'package:flutter/widgets.dart';
-import 'data_manager.dart';
+import 'data_access_manager.dart';
+import 'dart:convert';
 
 class Account{
   Account({this.id, this.account, this.username, this.password, this.remark});
@@ -11,7 +13,9 @@ class Account{
   String password = '';
   String remark = '';
 
-  Map toMap() => {'id':'$id','account':account,'username':account,'password':account,'remark':account= ''};
+  Map toMap() => {'id':'$id','account':account,'username':account,'password':account,'remark':account= remark};
+
+  dynamic toJson() => {'id':'$id','account':account,'username':account,'password':account,'remark':remark};
 
   Account.formMap(Map acc):
     id = acc['id'],
@@ -23,27 +27,75 @@ class Account{
 
 class AccountModel extends ChangeNotifier
 {
-  List<Account> _list = [];
-  UnmodifiableListView<Account> get items => UnmodifiableListView(_list);
+  Map<int,Account> _accountItems = {};
 
-  void load({bool notify = true})
+  UnmodifiableMapView<int,Account> get items => UnmodifiableMapView(_accountItems);
+
+  //加载数据
+  void load()
   {
-    _list = DataManger().getAccounts();
-    
-    if(notify) notifyListeners();
-
-    print("#### ${_list.length}");
+    _parse(DataAccessManger().data);
   }
 
+  //新增
   void add(Account acc)
   {
-    _list.add(acc);
+    acc.id = _getID();
+    _accountItems[acc.id] = acc;
     notifyListeners();
+    _save();
   }
 
+  //修改
   void modify(Account acc)
   {
-    
+    if(_accountItems.containsKey(acc.id))
+    {
+      _accountItems[acc.id] = acc;
+      notifyListeners();
+      _save();
+    }
+  }
+
+  //删除
+  void delete(int id)
+  {
+    _accountItems.remove(id);
+    notifyListeners();
+    _save();
+  }
+
+  //解析原生数据
+  void _parse(String data)
+  {
+    if(data.isNotEmpty)
+    {
+      try{
+        Map<int,dynamic> accountItems = json.decode(data);
+        for(var item in accountItems.values)
+        {
+          _accountItems[item['id']] = item;
+        }
+      }
+      catch(ex)
+      {
+        throw "parse failed";
+      }
+    }
+  }
+
+  //获取一个可用ID
+  int _getID()
+  {
+    int id = 0;
+    while(_accountItems.containsKey(id++)){}
+
+    return id;
+  }
+
+  void _save()
+  {
+    json.encode(_accountItems);
   }
 }
 

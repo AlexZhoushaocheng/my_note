@@ -1,35 +1,53 @@
-
-import 'dart:convert';
-
 import 'dart:io';
-
 import 'package:path_provider/path_provider.dart';
 
 class DataAccessManger {
   static DataAccessManger _dataAccessManger;
 
-  final JsonDecoder _jsonDecoder = JsonDecoder();
+  String _data = '';
 
+  bool _isLoaded = false;
 
-  //私有化 默认构造
   DataAccessManger._();
 
   factory DataAccessManger() => _getInstance();
 
   static DataAccessManger _getInstance() {
-    _dataAccessManger ??= new DataAccessManger();
+    _dataAccessManger ??= new DataAccessManger._();
     return _dataAccessManger;
   }
 
-  void loadData() async
-  {
-      Directory directory = await getApplicationDocumentsDirectory();
-      File dataFile = File(directory.path + '/data');
-      bool ret = await dataFile.exists();
+  //[pulic]
+  set data(data) {
+    _data = data;
+    _saveData();
+  }
 
-      if(ret)
-      {
+  String get data {
+    if (!_isLoaded) {
+      _loadData();
+      _isLoaded = true;
+    }
 
-      }
+    return _data;
+  }
+  //[pulic]
+
+  //读取数据
+  void _loadData() async {
+    Directory directory = await getApplicationDocumentsDirectory();
+    File dataFile = File(directory.path + '/data');
+    bool ret = await dataFile.exists();
+
+    if (ret) {
+      _data = await dataFile.readAsString();
+    }
+  }
+
+  //保存数据
+  void _saveData() async {
+    Directory directory = await getApplicationDocumentsDirectory();
+    File dataFile = File(directory.path + '/data');
+    await dataFile.writeAsString(_data);
   }
 }

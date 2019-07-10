@@ -55,6 +55,6 @@ class MainWidgetState extends State<MainWidget> {
   @override
   void initState() {
     super.initState();
-    Provider.of<AccountModel>(context, listen: false).load(notify: false);
+    Provider.of<AccountModel>(context, listen: false).load();
   }
 }
