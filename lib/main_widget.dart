@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:my_note/data_access_manager.dart';
 import 'package:provider/provider.dart';
 import 'account_model.dart';
+import 'editor.dart';
 
 class MainWidget extends StatefulWidget {
+
+  static String route = '/home';
+
   @override
   State<StatefulWidget> createState() {
     return MainWidgetState();
@@ -24,10 +28,9 @@ class MainWidgetState extends State<MainWidget> {
         title: Text("MyNote"),
         actions: <Widget>[
           IconButton(
-              icon: Icon(Icons.add),
+              icon: Icon(Icons.add), //新增
               onPressed: () {
-                Provider.of<AccountModel>(context)
-                    .add(Account(account: "account"));
+                Navigator.pushNamed(context, AccountEditor.route);
               }),
           IconButton(
             icon: Icon(Icons.search),
@@ -43,6 +46,7 @@ class MainWidgetState extends State<MainWidget> {
       ),
       body: ListView(
         children: List<Widget>.generate(accounts.length, (index) {
+          print('ID:${accounts.values.elementAt(index).account}');
           return Item(accounts.values.elementAt(index));
         }),
       ),
@@ -56,7 +60,7 @@ class MainWidgetState extends State<MainWidget> {
   }
 }
 
-class Item extends Container{
+class Item extends StatelessWidget{
 
   Item(this._account);
 
@@ -65,9 +69,13 @@ class Item extends Container{
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      child: Text(_account?.account),
+      //child: Text(?.account),
+      child: Container(
+        child: Text(null == _account.account?'error':_account.account),
+        height: 25,
+        ) ,
       onDoubleTap: (){
-        Navigator.pushNamed(context, '/edit',arguments: _account);
+        Navigator.pushNamed(context, AccountEditor.route,arguments: _account);
       },
     );
   }

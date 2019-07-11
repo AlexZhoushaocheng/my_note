@@ -20,9 +20,9 @@ main(List<String> args) async {
       home: ConfigManager().password != null && ConfigManager().password.isNotEmpty ? new Login() : new MainWidget(),
 
       routes: <String, WidgetBuilder>{
-        "/home": (context) => new MainWidget(),
-        "/login": (context) => new Login(),
-        "/edit":(context,{Account account}) => new AccountEditor(account: account,),
+        MainWidget.route : (context) => new MainWidget(),
+        Login.route : (context) => new Login(),
+        AccountEditor.route : (context) => new AccountEditor(),
       },
     ),
   ));

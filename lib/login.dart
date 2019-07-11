@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'config_manger.dart';
 
 class Login extends StatefulWidget {
+
+  static String route = '/login';
+  
   Login();
 
   @override
