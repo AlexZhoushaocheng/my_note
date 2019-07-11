@@ -33,13 +33,9 @@ class AccountModel extends ChangeNotifier
   UnmodifiableMapView<String,Account> get items => UnmodifiableMapView(_accountItems);
 
   //加载数据
-  void load()async
+  void load()
   {
-    //_parse(DataAccessManger().getdata());
-    DataAccessManger().getData().then((data){
-    _parse(data);
-    });
-    
+    _parse(DataAccessManger().data);
   }
 
   //新增
@@ -76,6 +72,7 @@ class AccountModel extends ChangeNotifier
   //解析原生数据
   void _parse(String data)
   {
+    print(data);
     if(data.isNotEmpty)
     {
       try{

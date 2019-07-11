@@ -7,7 +7,7 @@ class DataAccessManger {
 
   String _data = '';
 
-  bool _isLoaded = false;
+  bool _isInited = false;
 
   DataAccessManger._();
 
@@ -19,37 +19,47 @@ class DataAccessManger {
   }
 
   //[pulic]
+  Future<bool> init() async {
+    bool ret = true;
+    if (!_isInited) {
+      ret = await _loadData();
+      _isInited = true;
+    }
+    return ret;
+  }
+
   set data(String data) {
     _data = data;
     _saveData();
   }
 
-  Future<String>  getData() async
-  {
-    if (!_isLoaded) {
-      await _loadData();
-      _isLoaded = true;
-    }
-    return _data;
-  }
+  String get data => _data;
   //[pulic]
 
   //读取数据
   Future<bool> _loadData() async {
-    Directory directory = await getApplicationDocumentsDirectory();
-    File dataFile = File(directory.path + '/data');
-    bool ret = await dataFile.exists();
+    bool ret = true;
+    try {
+      Directory directory = await getApplicationDocumentsDirectory();
+      File dataFile = File(directory.path + '/data');
 
-    if (ret) {
-      _data = await dataFile.readAsString();
+      bool ret = await dataFile.exists();
+
+      if (ret) {
+        _data = await dataFile.readAsString();
+      }
+    } catch (ex) {
+      ret = false;
     }
-    return true;
+    return ret;
   }
 
   //保存数据
   void _saveData() async {
     Directory directory = await getApplicationDocumentsDirectory();
+
     File dataFile = File(directory.path + '/data');
+
     await dataFile.writeAsString(_data);
   }
 }

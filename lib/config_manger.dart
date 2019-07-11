@@ -13,6 +13,13 @@ class ConfigManager {
 
   String get password => _config["password"];
 
+  Future<void> init() async
+  {
+    if (false == _isLoaded) {
+      await _loadConfig();
+    }
+    return true;
+  }
   //private:
   ConfigManager._();
 
@@ -20,10 +27,6 @@ class ConfigManager {
 
   static get _instance {
     _configManager ??= new ConfigManager._();
-
-    if (false == _configManager._isLoaded) {
-      _configManager._loadConfig();
-    }
     return _configManager;
   }
 
@@ -31,7 +34,7 @@ class ConfigManager {
 
   Map<String, dynamic> _config = {};
 
-  void _loadConfig() async {
+  Future<void> _loadConfig() async {
     _isLoaded = true;
 
     Directory dir = await getApplicationDocumentsDirectory();

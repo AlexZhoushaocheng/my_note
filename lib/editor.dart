@@ -63,7 +63,7 @@ class AccountInfoTable extends StatelessWidget {
           children: <Widget>[
             Text('名称'),
             TextField(
-              controller: TextEditingController(text: _account.account),
+              controller: TextEditingController(text: _account?.account),
               onSubmitted: (data) {
                 _account.account = data;
               },
@@ -74,7 +74,7 @@ class AccountInfoTable extends StatelessWidget {
           children: <Widget>[
             Text('账号'),
             TextField(
-                controller: TextEditingController(text: _account.username),
+                controller: TextEditingController(text: _account?.username),
                 onSubmitted: (data) {
                   _account.username = data;
                 })
@@ -84,7 +84,7 @@ class AccountInfoTable extends StatelessWidget {
           children: <Widget>[
             Text('密码'),
             TextField(
-                controller: TextEditingController(text: _account.password),
+                controller: TextEditingController(text: _account?.password),
                 onSubmitted: (data) {
                   _account.password = data;
                 })
@@ -94,7 +94,7 @@ class AccountInfoTable extends StatelessWidget {
           children: <Widget>[
             Text('备注'),
             TextField(
-                controller: TextEditingController(text: _account.remark),
+                controller: TextEditingController(text: _account?.remark),
                 onSubmitted: (data) {
                   _account.remark = data;
                 })

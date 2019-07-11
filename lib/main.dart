@@ -5,11 +5,14 @@ import 'main_widget.dart';
 import 'package:provider/provider.dart';
 import 'editor.dart';
 import 'config_manger.dart';
+import 'data_access_manager.dart';
 
 main(List<String> args) async {
 
-  Account account = Account(account: 'baidu',username: 'uname',password: '14725',remark: '');
-  //configManger.addAccountInfo(account);
+  //初始化数据
+  await ConfigManager().init();
+  await DataAccessManger().init();
+  
 
   runApp(new ChangeNotifierProvider(
     builder: (context) => AccountModel(),

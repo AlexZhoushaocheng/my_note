@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'data_manager.dart';
+import 'config_manger.dart';
 
 class Login extends StatefulWidget {
   Login();
@@ -13,7 +13,7 @@ class Login extends StatefulWidget {
 class LoginState extends State<Login> {
 
   void checkPassword(String v) {
-    if (v == DataManger().password) {
+    if (v == ConfigManager().password) {
       Navigator.pushReplacementNamed(context, '/home');
     }
   }
