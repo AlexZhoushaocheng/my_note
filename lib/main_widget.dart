@@ -66,16 +66,33 @@ class Item extends StatelessWidget{
 
   final Account _account;
 
+  bool editState = false;
+  
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       //child: Text(?.account),
       child: Container(
-        child: Text(null == _account.account?'error':_account.account),
+        child: Row(
+          children: <Widget>[
+            Text(null == _account.account?'error':_account.account),
+            Expanded(
+              child: RaisedButton(
+                child: Text('删除'),
+                onPressed: (){
+                  print('delete item');
+                },
+              ),
+            )
+          ],
+        ),
         height: 25,
         ) ,
       onDoubleTap: (){
         Navigator.pushNamed(context, AccountEditor.route,arguments: _account);
+      },
+      onLongPress: (){
+        
       },
     );
   }
