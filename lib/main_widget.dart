@@ -5,7 +5,6 @@ import 'account_model.dart';
 import 'editor.dart';
 
 class MainWidget extends StatefulWidget {
-
   static String route = '/home';
 
   @override
@@ -60,14 +59,30 @@ class MainWidgetState extends State<MainWidget> {
   }
 }
 
-class Item extends StatelessWidget{
-
+class Item extends StatefulWidget {
   Item(this._account);
 
   final Account _account;
 
-  bool editState = false;
+  @override
+  State<StatefulWidget> createState() {
+    return ItemState();
+  }
+}
+
+class ItemState extends State<Item>
+{
   
+  bool editState = false;
+  double btWidth = 0.0;
+
+  onLongPress()
+  {
+    setState(() {
+      editState = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -75,11 +90,15 @@ class Item extends StatelessWidget{
       child: Container(
         child: Row(
           children: <Widget>[
-            Text(null == _account.account?'error':_account.account),
             Expanded(
+              child:
+                  Text(null == widget._account.account ? 'error' : widget._account.account),
+            ),
+            Container(
+              width: !editState ? 0 : null,
               child: RaisedButton(
                 child: Text('删除'),
-                onPressed: (){
+                onPressed: () {
                   print('delete item');
                 },
               ),
@@ -87,13 +106,11 @@ class Item extends StatelessWidget{
           ],
         ),
         height: 25,
-        ) ,
-      onDoubleTap: (){
-        Navigator.pushNamed(context, AccountEditor.route,arguments: _account);
+      ),
+      onDoubleTap: () {
+        Navigator.pushNamed(context, AccountEditor.route, arguments: widget._account);
       },
-      onLongPress: (){
-        
-      },
+      onLongPress: onLongPress
     );
   }
 }
