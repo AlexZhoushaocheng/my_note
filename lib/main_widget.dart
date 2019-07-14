@@ -70,47 +70,42 @@ class Item extends StatefulWidget {
   }
 }
 
-class ItemState extends State<Item>
-{
-  
-  bool editState = false;
-  double btWidth = 0.0;
+class ItemState extends State<Item> {
+  void onDelete(DismissDirection direction) {
+    print('del ${widget._account.account}');
+    Provider.of<AccountModel>(context).delete(widget._account.id);
+  }
 
-  onLongPress()
+  Future<bool> confirm(DismissDirection direction) async {
+    return direction == DismissDirection.endToStart;
+  }
+
+  void onEdit()
   {
-    setState(() {
-      editState = true;
-    });
+    Navigator.pushNamed(context, AccountEditor.route,arguments: widget._account);
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return Dismissible(
       //child: Text(?.account),
-      child: Container(
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              child:
-                  Text(null == widget._account.account ? 'error' : widget._account.account),
-            ),
-            Container(
-              width: !editState ? 0 : null,
-              child: RaisedButton(
-                child: Text('删除'),
-                onPressed: () {
-                  print('delete item');
-                },
-              ),
-            )
-          ],
+      key: Key(widget._account.id),
+      child: GestureDetector(
+        onDoubleTap: onEdit,
+        child: Container(
+          child: Text(null == widget._account.account ? 'error' : widget._account.account),
+          height: 25,
         ),
-        height: 25,
       ),
-      onDoubleTap: () {
-        Navigator.pushNamed(context, AccountEditor.route, arguments: widget._account);
-      },
-      onLongPress: onLongPress
+      onDismissed: onDelete,
+      confirmDismiss: confirm,
+      direction: DismissDirection.endToStart,
+      dismissThresholds: {DismissDirection.endToStart: 0.25},
+      background: Container(
+        color: Colors.red[100],
+        child: Text('删除'),
+        alignment: Alignment.centerRight,
+      ),
     );
   }
 }

@@ -62,7 +62,7 @@ class AccountModel extends ChangeNotifier
   }
 
   //删除
-  void delete(int id)
+  void delete(String id)
   {
     _accountItems.remove(id);
     notifyListeners();
