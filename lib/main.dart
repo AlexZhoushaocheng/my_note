@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'editor.dart';
 import 'config_manger.dart';
 import 'data_access_manager.dart';
+import 'setting/setting_widget.dart';
 
 main(List<String> args) async {
 
@@ -23,6 +24,7 @@ main(List<String> args) async {
         MainWidget.route : (context) => new MainWidget(),
         Login.route : (context) => new Login(),
         AccountEditor.route : (context) => new AccountEditor(),
+        SettingWidget.route : (context) => new SettingWidget()
       },
     ),
   ));

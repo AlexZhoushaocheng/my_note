@@ -31,10 +31,15 @@ class LoginState extends State<Login> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 100),
           child: TextField(
+            keyboardType: TextInputType.number,
+            showCursor: false,
             obscureText: true, 
             onChanged: checkPassword, 
             maxLength: 4,
-            decoration: InputDecoration(),
+            decoration: InputDecoration(
+              semanticCounterText: null,
+              counterText: null
+            ),
             textAlign: TextAlign.center,
             ),
         )

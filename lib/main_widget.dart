@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_note/data_access_manager.dart';
+import 'package:my_note/setting/setting_widget.dart';
 import 'package:provider/provider.dart';
 import 'account_model.dart';
 import 'editor.dart';
@@ -31,23 +32,28 @@ class MainWidgetState extends State<MainWidget> {
               onPressed: () {
                 Navigator.pushNamed(context, AccountEditor.route);
               }),
+          // IconButton(
+          //   icon: Icon(Icons.search),
+          //   onPressed: () {
+          //     print(DataAccessManger().data);
+          //   },
+          // ),
           IconButton(
-            icon: Icon(Icons.search),
+            icon: Icon(Icons.settings),
             onPressed: () {
-              print(DataAccessManger().data);
+              Navigator.pushNamed(context, SettingWidget.route);
             },
-          ),
-          IconButton(
-            icon: Icon(Icons.menu),
-            onPressed: () {},
           ),
         ],
       ),
-      body: ListView(
+      body: Padding(
+        padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+        child: ListView(
         children: List<Widget>.generate(accounts.length, (index) {
           print('ID:${accounts.values.elementAt(index).account}');
-          return Item(accounts.values.elementAt(index));
+          return Item(accounts.values.elementAt(index),index);
         }),
+      ),
       ),
     );
   }
@@ -60,9 +66,10 @@ class MainWidgetState extends State<MainWidget> {
 }
 
 class Item extends StatefulWidget {
-  Item(this._account);
+  Item(this._account,this.index);
 
   final Account _account;
+  final int index;
 
   @override
   State<StatefulWidget> createState() {
@@ -91,10 +98,48 @@ class ItemState extends State<Item> {
       //child: Text(?.account),
       key: Key(widget._account.id),
       child: GestureDetector(
+        onTap: (){
+          showDialog(
+          context: context,
+          builder: (BuildContext context)=>SimpleDialog(
+            title: Text(widget._account.account),
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Text('用户名'),
+                  Text(widget._account.username)
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  Text('密码'),
+                  Text(widget._account.password)
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  Text('备注'),
+                  Text(widget._account.remark)
+                ],
+              ),
+            ],
+          )
+          );
+        },
         onDoubleTap: onEdit,
-        child: Container(
-          child: Text(null == widget._account.account ? 'error' : widget._account.account),
-          height: 25,
+        child:Container(
+          child: Row(
+            children: <Widget>[
+              SizedBox(width: 40,),
+              SizedBox(width: 80,
+              child: Text(widget._account.account),
+              ),
+              SizedBox(width: 20,),
+              Text(widget._account.username)
+            ],
+          ),
+          height: 45,
+          color: widget.index % 2 ==0? Colors.grey[300] : Colors.white,
         ),
       ),
       onDismissed: onDelete,
