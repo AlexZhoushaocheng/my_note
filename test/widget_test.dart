@@ -5,9 +5,7 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:my_note/config_manger.dart';
 import 'package:my_note/account_model.dart';
 import 'dart:convert';
 
@@ -50,13 +48,10 @@ void main() {
 
     Map mm = {"1" : acc};
 
-    Map jmm =  json.decode('{"1" : {"id":1,"account":"account","username":"username","password":"password","remark":"remark"}}');
-
-    //print(jmm);
     String s =  json.encode(mm);
 
 
     print(s);
-    
+
   });
 }

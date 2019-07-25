@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:my_note/data_access_manager.dart';
 import 'package:my_note/setting/setting_widget.dart';
 import 'package:provider/provider.dart';
 import 'account_model.dart';
@@ -50,7 +49,7 @@ class MainWidgetState extends State<MainWidget> {
         padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
         child: ListView(
         children: List<Widget>.generate(accounts.length, (index) {
-          print('ID:${accounts.values.elementAt(index).account}');
+          //print('ID:${accounts.values.elementAt(index).account}');
           return Item(accounts.values.elementAt(index),index);
         }),
       ),
@@ -79,7 +78,7 @@ class Item extends StatefulWidget {
 
 class ItemState extends State<Item> {
   void onDelete(DismissDirection direction) {
-    print('del ${widget._account.account}');
+    //print('del ${widget._account.account}');
     Provider.of<AccountModel>(context).delete(widget._account.id);
   }
 
@@ -103,23 +102,45 @@ class ItemState extends State<Item> {
           context: context,
           builder: (BuildContext context)=>SimpleDialog(
             title: Text(widget._account.account),
+            contentPadding: EdgeInsets.fromLTRB(12, 0, 12, 12),
             children: <Widget>[
               Row(
                 children: <Widget>[
-                  Text('用户名'),
-                  Text(widget._account.username)
+                  SizedBox(
+                    width: 50,
+                    child: Text('用户名:', textWidthBasis: TextWidthBasis.parent,
+                      textAlign: TextAlign.right,),
+                  ),
+                  Padding(
+                      padding: EdgeInsets.only(left: 8),
+                      child: Text(widget._account.username)
+                  )
                 ],
               ),
               Row(
                 children: <Widget>[
-                  Text('密码'),
-                  Text(widget._account.password)
+                  SizedBox(
+                    width: 50,
+                    child: Text('密码:', textWidthBasis: TextWidthBasis.parent,
+                      textAlign: TextAlign.right,),
+                  ),
+                  Padding(
+                      padding: EdgeInsets.only(left: 8),
+                      child: Text(widget._account.password)
+                  )
                 ],
               ),
               Row(
                 children: <Widget>[
-                  Text('备注'),
-                  Text(widget._account.remark)
+                  SizedBox(
+                    width: 50,
+                    child: Text('备注:', textWidthBasis: TextWidthBasis.parent,
+                      textAlign: TextAlign.right,),
+                  ),
+                  Padding(
+                      padding: EdgeInsets.only(left: 8),
+                      child: Text(widget._account.remark)
+                  )
                 ],
               ),
             ],

@@ -1,5 +1,4 @@
 import 'dart:collection';
-import 'dart:developer';
 import 'package:flutter/widgets.dart';
 import 'data_access_manager.dart';
 import 'dart:convert';
@@ -44,7 +43,7 @@ class AccountModel extends ChangeNotifier
     acc.id = _getID();
     _accountItems[acc.id] = acc;
 
-    print("id ${acc.id} length: ${_accountItems.length}");
+    //print("id ${acc.id} length: ${_accountItems.length}");
 
     notifyListeners();
     _save();
@@ -72,7 +71,7 @@ class AccountModel extends ChangeNotifier
   //解析原生数据
   void _parse(String data)
   {
-    print(data);
+    //print(data);
     if(data.isNotEmpty)
     {
       try{
@@ -85,7 +84,7 @@ class AccountModel extends ChangeNotifier
           _accountItems[key] = Account.formMap(value);
         });
 
-        print(_accountItems);
+        //print(_accountItems);
       }
       catch(ex)
       {

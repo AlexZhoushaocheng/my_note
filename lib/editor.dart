@@ -104,7 +104,6 @@ class AccountEditorState extends State<AccountEditor> {
                     onSaved: (v) {
                       account.password = v;
                     },
-                    obscureText: true,
                     validator: (v) {
                       String ret;
                       if (v.isEmpty) {
@@ -138,83 +137,3 @@ class AccountEditorState extends State<AccountEditor> {
         ));
   }
 }
-
-// class AccountInfoTable extends StatelessWidget {
-//   AccountInfoTable({this.account, this.accountChanged}) {
-//     if (null == account) {
-//       //account = Account(id: '');
-//     }
-//   }
-
-//   final Account account;
-
-//   void Function(Account) accountChanged;
-
-//   void onItemChanged() {
-//     accountChanged(account);
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Form(
-//       //key: _formKey,
-//       child: Column(
-//       children: <Widget>[
-//         Row(
-//           children: <Widget>[
-//             Text('名称'),
-//             Expanded(
-//                 child: TextFormField(
-//               controller: TextEditingController(text: account?.account),
-//               decoration: InputDecoration(
-//                   //border: OutlineInputBorder(),
-//                   //labelText: 'p'
-//                   ),
-//               onFieldSubmitted: (data) {
-//                 account.account = data;
-//                 onItemChanged();
-//               },
-//             )),
-//           ],
-//         ),
-//         Row(
-//           children: <Widget>[
-//             Text('账号'),
-//             Expanded(
-//               child: TextFormField(
-//                   controller: TextEditingController(text: account?.username),
-//                   onFieldSubmitted: (data) {
-//                     account.username = data;
-//                     onItemChanged();
-//                   }),
-//             )
-//           ],
-//         ),
-//         Row(
-//           children: <Widget>[
-//             Text('密码'),
-//             Expanded(
-//                 child: TextFormField(
-//                     controller: TextEditingController(text: account?.password),
-//                     onFieldSubmitted: (data) {
-//                       account.password = data;
-//                       onItemChanged();
-//                     }))
-//           ],
-//         ),
-//         Row(
-//           children: <Widget>[
-//             Text('备注'),
-//             Expanded(
-//                 child: TextFormField(
-//                     controller: TextEditingController(text: account?.remark),
-//                     onFieldSubmitted: (data) {
-//                       account.remark = data;
-//                       onItemChanged();
-//                     }))
-//           ],
-//         )
-//       ],
-//     ));
-//   }
-// }
